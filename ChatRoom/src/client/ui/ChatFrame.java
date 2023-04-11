@@ -1,13 +1,3 @@
-/**
- * Copyright (C), 2015-2019, XXX有限公司
- * FileName: CharFrame
- * Author:   ITryagain
- * Date:     2019/5/16 20:21
- * Description:
- * History:
- * <author>          <time>          <version>          <desc>
- * 作者姓名           修改时间           版本号              描述
- */
 package client.ui;
 
 import client.ClientThread;
@@ -30,14 +20,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-/**
- * 〈一句话功能简述〉<br> 
- * 〈〉
- *
- * @author ITryagain
- * @create 2019/5/16
- * @since 1.0.0
- */
 
 public class ChatFrame extends JFrame{
     private static final long serialVersionUID = -2310785591507878535L;
@@ -66,8 +48,8 @@ public class ChatFrame extends JFrame{
     }
 
     public void init(){
-        this.setTitle("JQ聊天室");
-        this.setSize(550, 500);
+        this.setTitle("聊天室");
+        this.setSize(600, 550);
         this.setResizable(false);
 
         //设置默认窗体在屏幕中央
@@ -122,26 +104,14 @@ public class ChatFrame extends JFrame{
         btnPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
         tempPanel.add(btnPanel, BorderLayout.CENTER);
 
-        //字体按钮
-        JButton fontBtn = new JButton(new ImageIcon("images/font.png"));
-        fontBtn.setMargin(new Insets(0,0,0,0));
-        fontBtn.setToolTipText("设置字体和格式");
-        btnPanel.add(fontBtn);
-
-        //表情按钮
-        JButton faceBtn = new JButton(new ImageIcon("images/sendFace.png"));
-        faceBtn.setMargin(new Insets(0,0,0,0));
-        faceBtn.setToolTipText("选择表情");
-        btnPanel.add(faceBtn);
-
         //发送文件按钮
-        JButton shakeBtn = new JButton(new ImageIcon("images/shake.png"));
+        JButton shakeBtn = new JButton(new ImageIcon(System.getProperty("user.dir")+"\\ChatRoom\\images\\shake.png"));
         shakeBtn.setMargin(new Insets(0,0,0,0));
         shakeBtn.setToolTipText("向对方发送窗口振动");
         btnPanel.add(shakeBtn);
 
         //发送文件按钮
-        JButton sendFileBtn = new JButton(new ImageIcon("images/sendPic.png"));
+        JButton sendFileBtn = new JButton(new ImageIcon(System.getProperty("user.dir")+"\\ChatRoom\\images\\sendPic.png"));
         sendFileBtn.setMargin(new Insets(0,0,0,0));
         sendFileBtn.setToolTipText("向对方发送文件");
         btnPanel.add(sendFileBtn);
@@ -202,7 +172,6 @@ public class ChatFrame extends JFrame{
         currentUserLbl = new JLabel();
         currentUserPane.add(currentUserLbl);
 
-        ///////////////////////注册事件监听器/////////////////////////
         //关闭窗口
         this.addWindowListener(new WindowAdapter(){
             public void windowClosing(WindowEvent e) {
@@ -287,7 +256,7 @@ public class ChatFrame extends JFrame{
         //加载当前用户数据
         if(null != DataBuffer.currentUser){
             currentUserLbl.setIcon(
-                    new ImageIcon("images/" + DataBuffer.currentUser.getHead() + ".png"));
+                    new ImageIcon(System.getProperty("user.dir")+"\\ChatRoom\\images\\" + DataBuffer.currentUser.getHead() + ".png"));
             currentUserLbl.setText(DataBuffer.currentUser.getNickname()
                     + "(" + DataBuffer.currentUser.getId() + ")");
         }
@@ -345,13 +314,6 @@ public class ChatFrame extends JFrame{
                     "不能发送", JOptionPane.ERROR_MESSAGE);
         } else { //发送
             User selectedUser = (User)onlineList.getSelectedValue();
-//			if(null != selectedUser &&
-//					DataBuffer.currentUser.getId() == selectedUser.getId()){
-//				JOptionPane.showMessageDialog(ChatFrame.this, "不能给自己发送消息!",
-//						"不能发送", JOptionPane.ERROR_MESSAGE);
-//				return;
-//			}
-
             //如果设置了ToUser表示私聊，否则群聊
             Message msg = new Message();
             if(rybqBtn.isSelected()){  //私聊
@@ -376,13 +338,6 @@ public class ChatFrame extends JFrame{
                     .append(msg.getFromUser().getNickname())
                     .append("(").append(msg.getFromUser().getId()).append(") ");
             if(!this.rybqBtn.isSelected()){//群聊
-//				if(null == selectedUser){
-//					sb.append("对大家说");
-//				}else{
-//					sb.append("对").append(selectedUser.getNickname())
-//						.append("(").append(selectedUser.getId()).append(")")
-//						.append("说");
-//				}
                 sb.append("对大家说");
             }
             sb.append("\n  ").append(content).append("\n");
@@ -477,10 +432,10 @@ public class ChatFrame extends JFrame{
         }
     }
 
-    /*踢除*/
+    /**被踢除*/
     public static void remove() {
         int select = JOptionPane.showConfirmDialog(sendArea,
-                "您已被踢除？\n\n", "系统通知",
+                "您已被踢除\n", "系统通知",
                 JOptionPane.YES_NO_OPTION);
 
         Request req = new Request();

@@ -1,13 +1,3 @@
-/**
- * Copyright (C), 2015-2019, XXX有限公司
- * FileName: Response
- * Author:   ITryagain
- * Date:     2019/5/15 18:51
- * Description:
- * History:
- * <author>          <time>          <version>          <desc>
- * 作者姓名           修改时间           版本号              描述
- */
 package common.model.entity;
 
 import java.io.OutputStream;
@@ -32,7 +22,6 @@ public class Response implements Serializable {
         this.status = ResponseStatus.OK;
         this.dataMap = new HashMap<String, Object>();
     }
-
 
     public ResponseStatus getStatus() {
         return status;

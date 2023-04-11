@@ -1,13 +1,3 @@
-/**
- * Copyright (C), 2015-2019, XXX有限公司
- * FileName: DataBuffer
- * Author:   ITryagain
- * Date:     2019/5/16 20:26
- * Description:
- * History:
- * <author>          <time>          <version>          <desc>
- * 作者姓名           修改时间           版本号              描述
- */
 package client;
 
 import client.model.entity.OnlineUserListModel;
@@ -21,15 +11,6 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.util.List;
 import java.util.Properties;
-
-/**
- * 〈一句话功能简述〉<br> 
- * 〈客户端数据缓存〉
- *
- * @author ITryagain
- * @create 2019/5/16
- * @since 1.0.0
- */
 
 public class DataBuffer {
     /** 当前客户端的用户信息 */

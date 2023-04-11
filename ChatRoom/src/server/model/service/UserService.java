@@ -1,13 +1,3 @@
-/**
- * Copyright (C), 2015-2019, XXX有限公司
- * FileName: UserService
- * Author:   ITryagain
- * Date:     2019/5/15 18:34
- * Description:
- * History:
- * <author>          <time>          <version>          <desc>
- * 作者姓名           修改时间           版本号              描述
- */
 package server.model.service;
 
 import common.model.entity.User;
@@ -76,7 +66,6 @@ public class UserService {
         List<User> list = null;
         ObjectInputStream ois = null;
         try {
-//            System.out.println(path);
             ois = new ObjectInputStream(
                     new FileInputStream(System.getProperty("user.dir")+
                             DataBuffer.configProp.getProperty("dbpath")));
@@ -97,7 +86,6 @@ public class UserService {
             oos = new ObjectOutputStream(
                     new FileOutputStream(System.getProperty("user.dir")+
                             DataBuffer.configProp.getProperty("dbpath")));
-
             //写回用户信息
             oos.writeObject(users);
             oos.flush();

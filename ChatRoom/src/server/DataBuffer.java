@@ -1,13 +1,3 @@
-/**
- * Copyright (C), 2015-2019, XXX有限公司
- * FileName: DataBuffer
- * Author:   ITryagain
- * Date:     2019/5/15 17:32
- * Description: 服务器端数据缓存
- * History:
- * <author>          <time>          <version>          <desc>
- * 作者姓名           修改时间           版本号              描述
- */
 package server;
 
 import common.model.entity.User;
@@ -21,10 +11,9 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentSkipListMap;
 
-/*
+/**
 * 用来读取配置文件
 * */
-
 public class DataBuffer {
     // 服务器端套接字
     public static ServerSocket serverSocket;
@@ -43,8 +32,8 @@ public class DataBuffer {
 
     static{
         // 初始化
-        onlineUserIOCacheMap = new ConcurrentSkipListMap<Long,OnlineClientIOCache>();
-        onlineUsersMap = new ConcurrentSkipListMap<Long, User>();
+        onlineUserIOCacheMap = new ConcurrentSkipListMap<>();
+        onlineUsersMap = new ConcurrentSkipListMap<>();
         configProp = new Properties();
         registedUserTableModel = new RegistedUserTableModel();
         onlineUserTableModel = new OnlineUserTableModel();

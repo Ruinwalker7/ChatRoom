@@ -20,6 +20,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.TimerTask;
 
 /**
@@ -267,6 +268,15 @@ public class ServerInfoFrame extends JFrame {
                 JOptionPane.YES_NO_OPTION);
         //如果用户点击的是关闭服务器按钮时会提示是否确认关闭。
         if (select == JOptionPane.YES_OPTION) {
+            for(Map.Entry<Long, User> i : DataBuffer.onlineUsersMap.entrySet()){
+                try {
+                    RequestProcessor.remove(i.getValue());
+                }
+                catch (IOException e){
+                    e.printStackTrace();
+                }
+            }
+
             System.exit(0);//退出系统
         }else{
             //覆盖默认的窗口关闭事件动作

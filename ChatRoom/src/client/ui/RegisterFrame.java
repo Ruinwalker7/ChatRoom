@@ -1,13 +1,3 @@
-/**
- * Copyright (C), 2015-2019, XXX有限公司
- * FileName: RegisterFrame
- * Author:   ITryagain
- * Date:     2019/5/16 20:23
- * Description:
- * History:
- * <author>          <time>          <version>          <desc>
- * 作者姓名           修改时间           版本号              描述
- */
 package client.ui;
 
 import client.util.ClientUtil;
@@ -23,15 +13,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
-
-/**
- * 〈一句话功能简述〉<br> 
- * 〈〉
- *
- * @author ITryagain
- * @create 2019/5/16
- * @since 1.0.0
- */
 
 public class RegisterFrame extends JFrame {
     private static final long serialVersionUID = -768631070458723803L;
@@ -104,7 +85,7 @@ public class RegisterFrame extends JFrame {
         head.setBounds(278, 70, 65, 45);
         head.setMaximumRowCount(5);
         for (int i = 0; i < 11; i++) {
-            head.addItem(new ImageIcon("images/" + i + ".png"));
+            head.addItem(new ImageIcon(System.getProperty("user.dir")+"\\ChatRoom\\images\\" + i + ".png"));
             //通过循环添加图片，注意图片名字要取成1,2,3,4,5,等
         }
         head.setSelectedIndex(0);

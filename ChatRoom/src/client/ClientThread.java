@@ -1,13 +1,3 @@
-/**
- * Copyright (C), 2015-2019, XXX有限公司
- * FileName: ClientThread
- * Author:   ITryagain
- * Date:     2019/5/16 20:26
- * Description:
- * History:
- * <author>          <time>          <version>          <desc>
- * 作者姓名           修改时间           版本号              描述
- */
 package client;
 
 import client.ui.ChatFrame;
@@ -16,23 +6,13 @@ import client.util.JFrameShaker;
 import common.model.entity.*;
 import common.util.IOUtil;
 import common.util.SocketUtil;
-
 import javax.swing.*;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-/**
- * 〈一句话功能简述〉<br> 
- * 〈客户端线程，不断监听服务器发送过来的信息〉
- *
- * @author ITryagain
- * @create 2019/5/16
- * @since 1.0.0
- */
-
 public class ClientThread extends Thread {
-    private JFrame currentFrame;  //当前窗体
+    private JFrame currentFrame;
 
     public ClientThread(JFrame frame){
         currentFrame = frame;

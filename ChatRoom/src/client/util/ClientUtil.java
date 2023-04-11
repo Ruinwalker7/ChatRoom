@@ -1,13 +1,3 @@
-/**
- * Copyright (C), 2015-2019, XXX有限公司
- * FileName: ClientUtil
- * Author:   ITryagain
- * Date:     2019/5/16 20:24
- * Description:
- * History:
- * <author>          <time>          <version>          <desc>
- * 作者姓名           修改时间           版本号              描述
- */
 package client.util;
 
 import client.DataBuffer;
@@ -16,15 +6,6 @@ import common.model.entity.Request;
 import common.model.entity.Response;
 
 import java.io.IOException;
-
-/**
- * 〈客户端发送请求到服务器的工具〉<br>
- * 〈〉
- *
- * @author ITryagain
- * @create 2019/5/16
- * @since 1.0.0
- */
 
 public class ClientUtil {
 

@@ -1,13 +1,3 @@
-/**
- * Copyright (C), 2015-2019, XXX有限公司
- * FileName: LoginFrame
- * Author:   ITryagain
- * Date:     2019/5/16 20:23
- * Description:
- * History:
- * <author>          <time>          <version>          <desc>
- * 作者姓名           修改时间           版本号              描述
- */
 package client.ui;
 
 import client.DataBuffer;
@@ -30,20 +20,13 @@ import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.util.List;
 
-/**
- * 〈一句话功能简述〉<br> 
- * 〈〉
- *
- * @author ITryagain
- * @create 2019/5/16
- * @since 1.0.0
- */
 
 public class LoginFrame extends JFrame {
     private static final long serialVersionUID = -3426717670093483287L;
 
-    private JTextField idTxt;
-    private JPasswordField pwdFld;
+    private JTextField idTxt; //id输入
+
+    private JPasswordField pwdFld; //密码输入
 
     public LoginFrame(){
         this.init();
@@ -51,8 +34,9 @@ public class LoginFrame extends JFrame {
     }
 
     public void init(){
-        this.setTitle("JQ登录");
+        this.setTitle("登录");
         this.setSize(330, 230);
+
         //设置默认窗体在屏幕中央
         int x = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
         int y = (int)Toolkit.getDefaultToolkit().getScreenSize().getHeight();
@@ -60,7 +44,7 @@ public class LoginFrame extends JFrame {
         this.setResizable(false);
 
         //把Logo放置到JFrame的北边
-        Icon icon = new ImageIcon("images/logo.png");
+        Icon icon = new ImageIcon(System.getProperty("user.dir")+"\\ChatRoom\\images\\logo.png");
         JLabel label = new JLabel(icon);
         label.setPreferredSize(new Dimension(324,47));
         this.add(label, BorderLayout.NORTH);
@@ -129,12 +113,11 @@ public class LoginFrame extends JFrame {
     }
 
     /** 登录 */
-    @SuppressWarnings("unchecked")
     private void login() {
         if (idTxt.getText().length() == 0
                 || pwdFld.getPassword().length == 0) {
             JOptionPane.showMessageDialog(LoginFrame.this,
-                    "账号和密码是必填的",
+                    "请输入账号和密码",
                     "输入有误",JOptionPane.ERROR_MESSAGE);
             idTxt.requestFocusInWindow();
             return;
@@ -168,7 +151,6 @@ public class LoginFrame extends JFrame {
                 DataBuffer.currentUser = user2;
                 //获取当前在线用户列表
                 DataBuffer.onlineUsers = (List<User>)response.getData("onlineUsers");
-
                 LoginFrame.this.dispose();
                 new ChatFrame();  //打开聊天窗体
             }else{ //登录失败

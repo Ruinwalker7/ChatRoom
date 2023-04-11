@@ -1,13 +1,3 @@
-/**
- * Copyright (C), 2015-2019, XXX有限公司
- * FileName: MainServer
- * Author:   ITryagain
- * Date:     2019/5/15 17:07
- * Description:
- * History:
- * <author>          <time>          <version>          <desc>
- * 作者姓名           修改时间           版本号              描述
- */
 package server;
 
 import server.controller.RequestProcessor;
@@ -27,7 +17,6 @@ public class MainServer {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         //启动新线程进行客户端连接监听
         new Thread(new Runnable() {
             public void run() {
@@ -38,7 +27,7 @@ public class MainServer {
                         System.out.println("客户来了："
                                 + socket.getInetAddress().getHostAddress()
                                 + ":" + socket.getPort());
-
+                        //新线程监听
                         new Thread(new RequestProcessor(socket)).start();
                     }
                 } catch (IOException e) {
@@ -47,8 +36,7 @@ public class MainServer {
             }
         }).start();
 
-
-        //设置外观感觉
+        //设置外观
         JFrame.setDefaultLookAndFeelDecorated(true);
         JDialog.setDefaultLookAndFeelDecorated(true);
         try {
