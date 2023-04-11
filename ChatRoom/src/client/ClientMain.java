@@ -17,15 +17,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-/**
- * 〈一句话功能简述〉<br> 
- * 〈客户端入口类〉
- *
- * @author ITryagain
- * @create 2019/5/16
- * @since 1.0.0
- */
-
 public class ClientMain {
 
     public static void main(String[] args) {

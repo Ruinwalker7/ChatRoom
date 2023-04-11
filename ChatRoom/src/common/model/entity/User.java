@@ -13,14 +13,6 @@ package common.model.entity;
 import javax.swing.*;
 import java.io.Serializable;
 
-/**
- * 〈一句话功能简述〉<br> 
- * 〈〉
- *
- * @author ITryagain
- * @create 2019/5/15
- * @since 1.0.0
- */
 
 public class User implements Serializable {
     private static final long serialVersionUID = 5942011574971970871L;

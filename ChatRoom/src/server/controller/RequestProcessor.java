@@ -24,15 +24,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-/**
- * 〈一句话功能简述〉<br>
- * 〈〉
- *
- * @author ITryagain
- * @create 2019/5/15
- * @since 1.0.0
- */
-
 public class RequestProcessor implements Runnable {
     private Socket currentClientSocket;  //当前正在请求服务器的客户端Socket
 
@@ -130,6 +121,7 @@ public class RequestProcessor implements Runnable {
 
         return false;  //断开监听
     }
+
     /** 注册 */
     public void registe(OnlineClientIOCache oio, Request request) throws IOException {
         User user = (User)request.getAttribute("user");

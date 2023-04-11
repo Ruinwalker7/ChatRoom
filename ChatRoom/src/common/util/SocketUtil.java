@@ -14,14 +14,6 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-/**
- * 〈网络操作相关工具类〉<br>
- * 〈〉
- *
- * @author ITryagain
- * @create 2019/5/16
- * @since 1.0.0
- */
 
 public class SocketUtil {
     /** 关闭Socket */

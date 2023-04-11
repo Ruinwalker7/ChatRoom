@@ -14,14 +14,6 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * 〈请求对象〉<br>
- * 〈〉
- *
- * @author ITryagain
- * @create 2019/5/15
- * @since 1.0.0
- */
 
 public class Request implements Serializable {
     private static final long serialVersionUID = -1237018286305074249L;

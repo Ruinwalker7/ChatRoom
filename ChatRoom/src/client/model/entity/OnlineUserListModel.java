@@ -16,15 +16,6 @@ import javax.swing.AbstractListModel;
 
 import common.model.entity.User;
 
-/**
- * 〈在线用户JList的Model〉<br>
- * 〈〉
- *
- * @author ITryagain
- * @create 2019/5/16
- * @since 1.0.0
- */
-
 public class OnlineUserListModel extends AbstractListModel {
     private static final long serialVersionUID = -3903760573171074301L;
     private List<User> onlineUsers;

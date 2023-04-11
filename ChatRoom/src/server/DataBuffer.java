@@ -21,14 +21,9 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentSkipListMap;
 
-/**
- * 〈一句话功能简述〉<br> 
- * 〈服务器端数据缓存〉
- *
- * @author ITryagain
- * @create 2019/5/15
- * @since 1.0.0
- */
+/*
+* 用来读取配置文件
+* */
 
 public class DataBuffer {
     // 服务器端套接字

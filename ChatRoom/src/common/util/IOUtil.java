@@ -14,14 +14,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-/**
- * 〈IO流操作相关工具类〉<br>
- * 〈〉
- *
- * @author ITryagain
- * @create 2019/5/15
- * @since 1.0.0
- */
 
 public class IOUtil {
     /** 关闭字节输入流 */

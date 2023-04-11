@@ -18,19 +18,9 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-/**
- * 〈一句话功能简述〉<br> 
- * 〈〉
- *
- * @author ITryagain
- * @create 2019/5/15
- * @since 1.0.0
- */
-
 public class MainServer {
     public static void main(String[] args) {
         int port = Integer.parseInt(DataBuffer.configProp.getProperty("port"));
-        System.out.println(port);
         //初始化服务器套节字
         try {
             DataBuffer.serverSocket = new ServerSocket(port);
@@ -38,7 +28,8 @@ public class MainServer {
             e.printStackTrace();
         }
 
-        new Thread(new Runnable() {//启动新线程进行客户端连接监听
+        //启动新线程进行客户端连接监听
+        new Thread(new Runnable() {
             public void run() {
                 try {
                     while (true) {
@@ -48,7 +39,6 @@ public class MainServer {
                                 + socket.getInetAddress().getHostAddress()
                                 + ":" + socket.getPort());
 
-                        //针对每个客户端启动一个线程，在线程中调用请求处理器来处理每个客户端的请求
                         new Thread(new RequestProcessor(socket)).start();
                     }
                 } catch (IOException e) {

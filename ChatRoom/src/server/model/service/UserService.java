@@ -13,8 +13,6 @@ package server.model.service;
 import common.model.entity.User;
 import common.util.IOUtil;
 import server.DataBuffer;
-
-import javax.xml.ws.Service;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
@@ -22,23 +20,27 @@ import java.io.ObjectOutputStream;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-/**
- * 〈一句话功能简述〉<br> 
- * 〈〉
- *
- * @author ITryagain
- * @create 2019/5/15
- * @since 1.0.0
- */
-
 public class UserService {
-    private static int idCount = 3; //id
+    private static long idCount = 3; //id
 
     /** 新增用户 */
     public void addUser(User user){
-        user.setId(++idCount);
         List<User> users = loadAllUser();
+        user.setId(++idCount);
         users.add(user);
+        saveAllUser(users);
+    }
+
+    public void delUser(long id){
+        List<User> users = loadAllUser();
+        int j=0;
+        for(User i:users){
+            if(i.getId()==id){
+                break;
+            }
+            j++;
+        }
+        users.remove(j);
         saveAllUser(users);
     }
 
@@ -70,13 +72,13 @@ public class UserService {
 
 
     /** 加载所有用户 */
-    @SuppressWarnings("unchecked")
     public List<User> loadAllUser() {
         List<User> list = null;
         ObjectInputStream ois = null;
         try {
+//            System.out.println(path);
             ois = new ObjectInputStream(
-                    new FileInputStream(Service.class.getClass().getResource("/").getPath()+
+                    new FileInputStream(System.getProperty("user.dir")+
                             DataBuffer.configProp.getProperty("dbpath")));
 
             list = (List<User>)ois.readObject();
@@ -85,6 +87,7 @@ public class UserService {
         }finally{
             IOUtil.close(ois);
         }
+        idCount = list.get(list.size()-1).getId();
         return list;
     }
 
@@ -92,8 +95,9 @@ public class UserService {
         ObjectOutputStream oos = null;
         try {
             oos = new ObjectOutputStream(
-                    new FileOutputStream(Service.class.getClass().getResource("/").getPath()+
+                    new FileOutputStream(System.getProperty("user.dir")+
                             DataBuffer.configProp.getProperty("dbpath")));
+
             //写回用户信息
             oos.writeObject(users);
             oos.flush();
@@ -103,8 +107,6 @@ public class UserService {
             IOUtil.close(oos);
         }
     }
-
-
 
     /** 初始化几个测试用户 */
     public void initUser(){

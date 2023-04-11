@@ -15,14 +15,6 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * 〈响应对象〉<br>
- * 〈〉
- *
- * @author ITryagain
- * @create 2019/5/15
- * @since 1.0.0
- */
 
 public class Response implements Serializable {
     private static final long serialVersionUID = 1689541820872288991L;

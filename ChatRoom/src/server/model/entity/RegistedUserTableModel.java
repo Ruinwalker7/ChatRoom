@@ -14,15 +14,6 @@ import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * 〈已注册用户列表模型〉<br>
- * 〈〉
- *
- * @author ITryagain
- * @create 2019/5/15
- * @since 1.0.0
- */
-
 public class RegistedUserTableModel extends AbstractTableModel {
     private static final long serialVersionUID = -6299791067241594227L;
 

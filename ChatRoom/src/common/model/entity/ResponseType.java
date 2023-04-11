@@ -10,15 +10,6 @@
  */
 package common.model.entity;
 
-/**
- * 〈响应类型枚举〉<br>
- * 〈〉
- *
- * @author ITryagain
- * @create 2019/5/15
- * @since 1.0.0
- */
-
 public enum ResponseType {
     /**
      * 文本内容
@@ -60,11 +51,11 @@ public enum ResponseType {
      * 其它
      */
     OTHER,
-    /*
+    /**
      * 广播
      */
     BOARD,
-    /*
+    /**
      * 踢除
      */
     REMOVE

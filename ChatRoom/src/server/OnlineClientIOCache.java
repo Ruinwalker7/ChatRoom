@@ -13,15 +13,6 @@ package server;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-/**
- * 〈一句话功能简述〉<br> 
- * 〈在线客户端的IO流缓存类〉
- *
- * @author ITryagain
- * @create 2019/5/15
- * @since 1.0.0
- */
-
 public class OnlineClientIOCache {
     //针对同一个Socket中获取的流在全局范围中最好只包装一次，以免出错
     private ObjectInputStream ois; // 对象输入流

@@ -13,15 +13,6 @@ package common.model.entity;
 import java.io.Serializable;
 import java.util.Date;
 
-/**
- * 〈一句话功能简述〉<br> 
- * 〈〉
- *
- * @author ITryagain
- * @create 2019/5/15
- * @since 1.0.0
- */
-
 public class Message implements Serializable {
     private static final long serialVersionUID = 1820192075144114657L;
     /** 消息接收者 */
