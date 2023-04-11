@@ -33,9 +33,8 @@ public class JFrameShaker {
                 // 利用时间计算出某一时刻晃动的幅度
                 double waveOffset = (elapsed % SHAKE_CYCLE) / SHAKE_CYCLE;
                 double angle = waveOffset * Math.PI;
-                double angley = waveOffset * Math.PI;
                 int shakeX = (int) ((Math.sin(angle) * SHAKE_DISTANCE) + oldLocation.x);
-                int shakeY = (int) ((Math.sin(angley) * SHAKE_DISTANCE) + oldLocation.y);
+                int shakeY = (int) ((Math.sin(angle) * SHAKE_DISTANCE) + oldLocation.y);
                 frame.setLocation(shakeX, shakeY);
                 if (elapsed >= SHAKE_DURATION) { // 振动时长到了就停止
                     stopShake();

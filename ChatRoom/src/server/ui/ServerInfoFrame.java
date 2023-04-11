@@ -99,6 +99,7 @@ public class ServerInfoFrame extends JFrame {
         final JLabel stateBar = new JLabel("", SwingConstants.RIGHT);
         stateBar.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
 
+        //新的线程加载时间
         new java.util.Timer().scheduleAtFixedRate(
                 new TimerTask(){
                     DateFormat df = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");

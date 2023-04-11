@@ -32,7 +32,7 @@ public class RegisterFrame extends JFrame {
     }
 
     public void init(){
-        this.setTitle("注册JQ新账号");//设置标题
+        this.setTitle("注册新账号");//设置标题
         setBounds((DataBuffer.screenSize.width - 387)/2,
                 (DataBuffer.screenSize.height - 267)/2,
                 387, 267);
@@ -170,13 +170,13 @@ public class RegisterFrame extends JFrame {
             case OK:
                 User user2 = (User)response.getData("user");
                 JOptionPane.showMessageDialog(RegisterFrame.this,
-                        "恭喜您，您的Q号:"+ user2.getId() + ",请牢记!!!",
+                        "恭喜您，您的Q号："+ user2.getId() + ",请牢记！！",
                         "注册成功",JOptionPane.INFORMATION_MESSAGE);
                 this.setVisible(false);
                 break;
             default:
                 JOptionPane.showMessageDialog(RegisterFrame.this,
-                        "注册失败，请稍后再试！！！","服务器内部错误！",JOptionPane.ERROR_MESSAGE);
+                        "注册失败，请稍后再试！！","服务器内部错误！",JOptionPane.ERROR_MESSAGE);
         }
     }
 }

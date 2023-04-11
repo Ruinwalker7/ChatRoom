@@ -161,7 +161,6 @@ public class ClientThread extends Thread {
                     sendFile.setDestPort(DataBuffer.RECEIVE_FILE_PORT);
 
                     request.setAction("agreeReceiveFile");
-//                    receiveFile(response);
                     ClientUtil.appendTxt2MsgListArea("【文件消息】您已同意接收来自 "
                             + fromName +" 的文件，正在接收文件 ...\n");
                 } else {
