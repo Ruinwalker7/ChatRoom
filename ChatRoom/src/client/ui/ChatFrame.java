@@ -209,9 +209,13 @@ public class ChatFrame extends JFrame{
         onlineList.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 User selectedUser = (User)onlineList.getSelectedValue();
+                if(e.getClickCount()==2){
+                    rybqBtn.setSelected(true);
+                }
                 if(rybqBtn.isSelected()){
                     if(DataBuffer.currentUser.getId() == selectedUser.getId()){
                         otherInfoLbl.setText("当前状态：想自言自语?...系统不允许");
+                        rybqBtn.setSelected(false);
                     }else{
                         otherInfoLbl.setText("当前状态：与 "+ selectedUser.getNickname()
                                 +"(" + selectedUser.getId() + ") 私聊中...");
@@ -293,7 +297,7 @@ public class ChatFrame extends JFrame{
                 request.setAction("shake");
                 request.setAttribute("msg", msg);
                 try {
-                    ClientUtil.sendTextRequest2(request);
+                    ClientUtil.sendTextRequestWithoutReceive(request);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -347,7 +351,7 @@ public class ChatFrame extends JFrame{
             request.setAction("chat");
             request.setAttribute("msg", msg);
             try {
-                ClientUtil.sendTextRequest2(request);
+                ClientUtil.sendTextRequestWithoutReceive(request);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -394,7 +398,7 @@ public class ChatFrame extends JFrame{
                     request.setAction("toSendFile");
                     request.setAttribute("file", sendFile);
                     try {
-                        ClientUtil.sendTextRequest2(request);
+                        ClientUtil.sendTextRequestWithoutReceive(request);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }

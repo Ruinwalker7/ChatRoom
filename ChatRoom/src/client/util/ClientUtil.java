@@ -34,7 +34,7 @@ public class ClientUtil {
     }
 
     /** 发送请求对象,不主动接收响应 */
-    public static void sendTextRequest2(Request request) throws IOException {
+    public static void sendTextRequestWithoutReceive(Request request) throws IOException {
         try {
             DataBuffer.oos.writeObject(request); // 发送请求
             DataBuffer.oos.flush();
@@ -47,7 +47,6 @@ public class ClientUtil {
     /** 把指定文本添加到消息列表文本域中 */
     public static void appendTxt2MsgListArea(String txt) {
         ChatFrame.msgListArea.append(txt);
-        //把光标定位到文本域的最后一行
         ChatFrame.msgListArea.setCaretPosition(ChatFrame.msgListArea.getDocument().getLength());
     }
 }

@@ -174,7 +174,7 @@ public class ClientThread extends Thread {
                         + fromName +" 的文件!\n");
             }
 
-            ClientUtil.sendTextRequest2(request);
+            ClientUtil.sendTextRequestWithoutReceive(request);
         } catch (IOException e) {
             e.printStackTrace();
         }

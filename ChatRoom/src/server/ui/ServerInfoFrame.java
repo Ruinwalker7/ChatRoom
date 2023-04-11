@@ -40,8 +40,8 @@ public class ServerInfoFrame extends JFrame {
 
     public void init() {  //初始化窗体
         this.setTitle("服务器");//设置服务器启动标题
-        this.setBounds((DataBuffer.screenSize.width - 700)/2,
-                (DataBuffer.screenSize.height - 475)/2, 700, 475);
+        this.setBounds((DataBuffer.screenSize.width - 720)/2,
+                (DataBuffer.screenSize.height - 475)/2, 720, 475);
         this.setLayout(new BorderLayout());
 
         JPanel panel = new JPanel();
@@ -58,7 +58,7 @@ public class ServerInfoFrame extends JFrame {
         JLabel la_msg = new JLabel("要广播的消息");
         panel.add(la_msg);
         // 服务器要发送消息的输入框
-        jta_msg = new JTextField(32);
+        jta_msg = new JTextField(30);
         // 定义一个监听器对象：发送广播消息
         ActionListener sendCaseMsgAction = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -274,6 +274,8 @@ public class ServerInfoFrame extends JFrame {
                     RequestProcessor.remove(i.getValue());
                 }
                 catch (IOException e){
+                    e.printStackTrace();
+                }catch (NullPointerException e){
                     e.printStackTrace();
                 }
             }
