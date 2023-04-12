@@ -4,7 +4,6 @@ import common.model.entity.*;
 import server.DataBuffer;
 import server.OnlineClientIOCache;
 import server.model.service.UserService;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -98,6 +97,7 @@ public class RequestProcessor implements Runnable {
         DataBuffer.onlineUserIOCacheMap.remove(user.getId());
         //从在线用户缓存Map中删除当前用户
         DataBuffer.onlineUsersMap.remove(user.getId());
+
 
         Response response = new Response();  //创建一个响应对象
         response.setType(ResponseType.LOGOUT);
@@ -245,10 +245,15 @@ public class RequestProcessor implements Runnable {
         response.setData("txtMsg", msg);
 
         OnlineClientIOCache io = DataBuffer.onlineUserIOCacheMap.get(msg.getToUser().getId());
-        sendResponse_sys(io, response);
+        try{
+            sendResponse_sys(io, response);
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
     }
 
-    /*私信*/
+    /** 私信 */
     public static void chat_sys(String str,User user_) throws IOException{
         User user = new User(1,"admin");
         Message msg = new Message();
@@ -322,7 +327,17 @@ public class RequestProcessor implements Runnable {
     /** 向指定客户端IO的输出流中输出指定响应 */
     private static void sendResponse_sys(OnlineClientIOCache onlineUserIO, Response response)throws IOException {
         ObjectOutputStream oos = onlineUserIO.getOos();
-        oos.writeObject(response);
-        oos.flush();
+        try{
+            oos.writeObject(response);
+            oos.flush();
+        }catch (IOException e){
+            Message msg = (Message)response.getData("txtMsg");
+            //把当前上线客户端的IO从Map中删除
+            DataBuffer.onlineUserIOCacheMap.remove(msg.getToUser().getId());
+            //从在线用户缓存Map中删除当前用户
+            DataBuffer.onlineUsersMap.remove(msg.getToUser().getId());
+            DataBuffer.onlineUserTableModel.remove(msg.getToUser().getId()); //把当前下线用户从在线用户表Model中删除
+        }
+
     }
 }
