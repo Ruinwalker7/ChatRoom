@@ -31,7 +31,6 @@ public class DataBuffer {
     public static Dimension screenSize;
 
     static{
-        // 初始化
         onlineUserIOCacheMap = new ConcurrentSkipListMap<>();
         onlineUsersMap = new ConcurrentSkipListMap<>();
         configProp = new Properties();
@@ -48,5 +47,4 @@ public class DataBuffer {
             e.printStackTrace();
         }
     }
-
 }

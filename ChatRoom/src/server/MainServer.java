@@ -1,5 +1,6 @@
 package server;
 
+import org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper;
 import server.controller.RequestProcessor;
 import server.ui.ServerInfoFrame;
 
@@ -10,6 +11,18 @@ import java.net.Socket;
 
 public class MainServer {
     public static void main(String[] args) {
+        try
+        {
+            org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper.frameBorderStyle=BeautyEyeLNFHelper.frameBorderStyle.generalNoTranslucencyShadow;
+            org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper.launchBeautyEyeLNF();
+            org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper.translucencyAtFrameInactive = false;
+            UIManager.put("RootPane.setupButtonVisible", false);
+        }
+        catch(Exception e)
+        {
+            System.out.println("加载炫彩皮肤失败！");
+        }
+
         int port = Integer.parseInt(DataBuffer.configProp.getProperty("port"));
         //初始化服务器套节字
         try {
@@ -17,6 +30,7 @@ public class MainServer {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         //启动新线程进行客户端连接监听
         new Thread(new Runnable() {
             public void run() {
@@ -35,16 +49,6 @@ public class MainServer {
                 }
             }
         }).start();
-
-        //设置外观
-        JFrame.setDefaultLookAndFeelDecorated(true);
-        JDialog.setDefaultLookAndFeelDecorated(true);
-        try {
-            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        //启动服务器监控窗体
         new ServerInfoFrame();
     }
 }

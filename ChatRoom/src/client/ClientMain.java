@@ -1,6 +1,7 @@
 package client;
 
 import client.ui.LoginFrame;
+import org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper;
 
 import javax.swing.*;
 import java.io.ObjectInputStream;
@@ -12,13 +13,16 @@ public class ClientMain {
     public static void main(String[] args) {
         connection(); //连接到服务器
         //设置外观
-        JFrame.setDefaultLookAndFeelDecorated(true);
-        JDialog.setDefaultLookAndFeelDecorated(true);
-        try {
-            String lookAndFeel = UIManager.getSystemLookAndFeelClassName();
-            UIManager.setLookAndFeel(lookAndFeel);
-        } catch (Exception e) {
-            e.printStackTrace();
+        try
+        {
+            org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper.frameBorderStyle= BeautyEyeLNFHelper.frameBorderStyle.generalNoTranslucencyShadow;
+            org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper.launchBeautyEyeLNF();
+            org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper.translucencyAtFrameInactive = false;
+            UIManager.put("RootPane.setupButtonVisible", false);
+        }
+        catch(Exception e)
+        {
+            System.out.println("加载炫彩皮肤失败！");
         }
         new LoginFrame();  //启动登录窗体
     }

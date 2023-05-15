@@ -3,10 +3,11 @@ package server;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+/**用于存储客户端的输入输出流*/
 public class OnlineClientIOCache {
-    final private ObjectInputStream ois; // 对象输入流
+    final private ObjectInputStream ois;
 
-    final private ObjectOutputStream oos; // 对象输出流
+    final private ObjectOutputStream oos;
 
     public OnlineClientIOCache(ObjectInputStream ois, ObjectOutputStream oos){
         this.ois = ois;

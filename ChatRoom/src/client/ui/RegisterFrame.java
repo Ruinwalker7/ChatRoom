@@ -35,54 +35,54 @@ public class RegisterFrame extends JFrame {
         this.setTitle("注册新账号");//设置标题
         setBounds((DataBuffer.screenSize.width - 387)/2,
                 (DataBuffer.screenSize.height - 267)/2,
-                387, 267);
+                450, 267);
         getContentPane().setLayout(null);
         setResizable(false);
 
         JLabel label = new JLabel("昵称:"); //label显示
-        label.setBounds(24, 36, 59, 17);
+        label.setBounds(24, 36, 60, 17);
         getContentPane().add(label);
 
         nickname = new JTextField(); //昵称
-        nickname.setBounds(90, 34, 110, 22);
+        nickname.setBounds(100, 34, 110, 22);
         getContentPane().add(nickname);
 
         JLabel label5 = new JLabel("密码:*");
-        label5.setBounds(24, 72, 50, 17);
+        label5.setBounds(24, 72, 60, 17);
         getContentPane().add(label5);
 
         JLabel label3 = new JLabel("确认密码:*");
-        label3.setBounds(24, 107, 65, 17);
+        label3.setBounds(24, 107, 85, 17);
         getContentPane().add(label3);
 
         pwdFld = new JPasswordField();//密码框
-        pwdFld.setBounds(90, 70, 110, 22);
+        pwdFld.setBounds(100, 70, 110, 22);
         getContentPane().add(pwdFld);
 
         pwd2Fld = new JPasswordField();
-        pwd2Fld.setBounds(90, 105, 110, 22);
+        pwd2Fld.setBounds(100, 105, 110, 22);
         getContentPane().add(pwd2Fld);
 
         JLabel label4 = new JLabel("性别:");
-        label4.setBounds(230, 36, 31, 17);
+        label4.setBounds(230, 36, 45, 17);
         getContentPane().add(label4);
 
         sex1 = new JRadioButton("男",true);
-        sex1.setBounds (268, 31,44, 25);
+        sex1.setBounds (268, 31,55, 25);
         getContentPane().add(sex1);
         sex0 = new JRadioButton("女");
-        sex0.setBounds(310, 31, 44, 25);
+        sex0.setBounds(320, 31, 55, 25);
         getContentPane().add(sex0);
         ButtonGroup buttonGroup = new ButtonGroup();//单选按钮组
         buttonGroup.add(sex0);
         buttonGroup.add(sex1);
 
         JLabel label6 = new JLabel("头像:");
-        label6.setBounds(230, 72, 31, 17);
+        label6.setBounds(230, 72, 40, 17);
         getContentPane().add(label6);
 
         head = new JComboBox();//下拉列表图标
-        head.setBounds(278, 70, 65, 45);
+        head.setBounds(278, 70, 90, 45);
         head.setMaximumRowCount(5);
         for (int i = 0; i < 11; i++) {
             head.addItem(new ImageIcon(this.getClass().getResource("/").getPath()+"\\images\\" + i + ".png"));

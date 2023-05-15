@@ -49,7 +49,7 @@ public class ChatFrame extends JFrame{
 
     public void init(){
         this.setTitle("聊天室");
-        this.setSize(600, 550);
+        this.setSize(1020, 800);
         this.setResizable(false);
 
         //设置默认窗体在屏幕中央
@@ -67,7 +67,7 @@ public class ChatFrame extends JFrame{
         // 创建一个分隔窗格
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
                 mainPanel, userPanel);
-        splitPane.setDividerLocation(380);
+        splitPane.setDividerLocation(700);
         splitPane.setDividerSize(10);
         splitPane.setOneTouchExpandable(true);
         this.add(splitPane, BorderLayout.CENTER);
@@ -82,7 +82,7 @@ public class ChatFrame extends JFrame{
         // 创建一个分隔窗格
         JSplitPane splitPane2 = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
                 infoPanel, sendPanel);
-        splitPane2.setDividerLocation(300);
+        splitPane2.setDividerLocation(500);
         splitPane2.setDividerSize(1);
         mainPanel.add(splitPane2, BorderLayout.CENTER);
 
@@ -91,7 +91,8 @@ public class ChatFrame extends JFrame{
 
         msgListArea = new JTextArea();
         msgListArea.setLineWrap(true);
-        Font font = new Font("黑体",0,12);
+        msgListArea.setEditable(false);
+        Font font = new Font("黑体",0,20);
         msgListArea.setFont(font);
 
 
@@ -159,7 +160,7 @@ public class ChatFrame extends JFrame{
         // 右边用户列表创建一个分隔窗格
         JSplitPane splitPane3 = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
                 onlineListPane, currentUserPane);
-        splitPane3.setDividerLocation(340);
+        splitPane3.setDividerLocation(500);
         splitPane3.setDividerSize(1);
         userPanel.add(splitPane3, BorderLayout.CENTER);
 

@@ -7,9 +7,7 @@ import java.util.List;
 public class RegistedUserTableModel extends AbstractTableModel {
     private static final long serialVersionUID = -6299791067241594227L;
 
-    //列名标题
     private String[] title = {"账号","密码","昵称","性别"};
-    //数据行
     private List<String[]> rows = new ArrayList<String[]>();
 
     @Override
@@ -46,6 +44,6 @@ public class RegistedUserTableModel extends AbstractTableModel {
             }
         }
         rows.remove(row);
-        fireTableRowsDeleted(2, 3);
+        fireTableRowsDeleted(row, row);
     }
 }
