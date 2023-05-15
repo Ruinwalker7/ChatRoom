@@ -35,7 +35,7 @@ public class LoginFrame extends JFrame {
 
     public void init(){
         this.setTitle("登录");
-        this.setSize(330, 230);
+        this.setSize(360, 250);
 
         //设置默认窗体在屏幕中央
         int x = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
@@ -57,18 +57,18 @@ public class LoginFrame extends JFrame {
         mainPanel.setLayout(null);
 
         JLabel nameLbl = new JLabel("账号:");
-        nameLbl.setBounds(50, 30, 40, 22);
+        nameLbl.setBounds(50, 30, 40, 30);
         mainPanel.add(nameLbl);
         idTxt = new JTextField();
-        idTxt.setBounds(95, 30, 150, 22);
+        idTxt.setBounds(95, 30, 180, 30);
         idTxt.requestFocusInWindow();//用户名获得焦点
         mainPanel.add(idTxt);
 
         JLabel pwdLbl = new JLabel("密码:");
-        pwdLbl.setBounds(50, 60, 40, 22);
+        pwdLbl.setBounds(50, 65, 40, 30);
         mainPanel.add(pwdLbl);
         pwdFld = new JPasswordField();
-        pwdFld.setBounds(95, 60, 150, 22);
+        pwdFld.setBounds(95, 65, 180, 30);
         mainPanel.add(pwdFld);
 
         //按钮面板放置在JFrame的南边

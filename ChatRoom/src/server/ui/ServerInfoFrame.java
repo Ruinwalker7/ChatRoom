@@ -99,7 +99,7 @@ public class ServerInfoFrame extends JFrame {
         final JLabel stateBar = new JLabel("", SwingConstants.RIGHT);
         stateBar.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
 
-        //新的线程加载时间
+        //新的线程控制时间
         new java.util.Timer().scheduleAtFixedRate(
                 new TimerTask(){
                     DateFormat df = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
@@ -220,7 +220,6 @@ public class ServerInfoFrame extends JFrame {
             jd.add(jtd_m);
             jd.add(jb);
             jd.setLocationRelativeTo(getOwner());
-            // 发送按钮的事件实现
             jb.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     System.out.println("发送了一条消息...");
@@ -230,7 +229,7 @@ public class ServerInfoFrame extends JFrame {
                     } catch (IOException e1) {
                         e1.printStackTrace();
                     }
-                    jtd_m.setText("");// 清空输入框
+                    jtd_m.setText("");//清空输入框
                     jd.dispose();
                 }
             });
@@ -242,7 +241,7 @@ public class ServerInfoFrame extends JFrame {
         SwingUtilities.updateComponentTreeUI(onlineUserTable);
     }
 
-    // 按下发送服务器消息的按钮，给所有在线用户发送消息
+    /** 按下发送服务器消息的按钮，给所有在线用户发送消息*/
     private void sendAllMsg() throws IOException {
         RequestProcessor.board(jta_msg.getText());
         jta_msg.setText("");// 清空输入框
@@ -279,10 +278,8 @@ public class ServerInfoFrame extends JFrame {
                     e.printStackTrace();
                 }
             }
-
-            System.exit(0);//退出系统
+            System.exit(0);
         }else{
-            //覆盖默认的窗口关闭事件动作
             setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         }
     }

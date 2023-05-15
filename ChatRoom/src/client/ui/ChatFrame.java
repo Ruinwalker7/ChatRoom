@@ -49,7 +49,7 @@ public class ChatFrame extends JFrame{
 
     public void init(){
         this.setTitle("聊天室");
-        this.setSize(600, 550);
+        this.setSize(1020, 800);
         this.setResizable(false);
 
         //设置默认窗体在屏幕中央
@@ -67,7 +67,7 @@ public class ChatFrame extends JFrame{
         // 创建一个分隔窗格
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
                 mainPanel, userPanel);
-        splitPane.setDividerLocation(380);
+        splitPane.setDividerLocation(700);
         splitPane.setDividerSize(10);
         splitPane.setOneTouchExpandable(true);
         this.add(splitPane, BorderLayout.CENTER);
@@ -82,7 +82,7 @@ public class ChatFrame extends JFrame{
         // 创建一个分隔窗格
         JSplitPane splitPane2 = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
                 infoPanel, sendPanel);
-        splitPane2.setDividerLocation(300);
+        splitPane2.setDividerLocation(500);
         splitPane2.setDividerSize(1);
         mainPanel.add(splitPane2, BorderLayout.CENTER);
 
@@ -91,6 +91,11 @@ public class ChatFrame extends JFrame{
 
         msgListArea = new JTextArea();
         msgListArea.setLineWrap(true);
+        msgListArea.setEditable(false);
+        Font font = new Font("黑体",0,20);
+        msgListArea.setFont(font);
+
+
         infoPanel.add(new JScrollPane(msgListArea,
                 JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER));
@@ -105,13 +110,13 @@ public class ChatFrame extends JFrame{
         tempPanel.add(btnPanel, BorderLayout.CENTER);
 
         //发送文件按钮
-        JButton shakeBtn = new JButton(new ImageIcon(System.getProperty("user.dir")+"\\ChatRoom\\images\\shake.png"));
+        JButton shakeBtn = new JButton(new ImageIcon(this.getClass().getResource("/").getPath()+"\\images\\shake.png"));
         shakeBtn.setMargin(new Insets(0,0,0,0));
         shakeBtn.setToolTipText("向对方发送窗口振动");
         btnPanel.add(shakeBtn);
 
         //发送文件按钮
-        JButton sendFileBtn = new JButton(new ImageIcon(System.getProperty("user.dir")+"\\ChatRoom\\images\\sendPic.png"));
+        JButton sendFileBtn = new JButton(new ImageIcon(this.getClass().getResource("/").getPath()+"\\images\\sendPic.png"));
         sendFileBtn.setMargin(new Insets(0,0,0,0));
         sendFileBtn.setToolTipText("向对方发送文件");
         btnPanel.add(sendFileBtn);
@@ -126,6 +131,8 @@ public class ChatFrame extends JFrame{
         sendPanel.add(new JScrollPane(sendArea,
                 JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER));
+        sendArea.setFont(font);
+
 
         // 聊天按钮面板
         JPanel btn2Panel = new JPanel();
@@ -153,7 +160,7 @@ public class ChatFrame extends JFrame{
         // 右边用户列表创建一个分隔窗格
         JSplitPane splitPane3 = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
                 onlineListPane, currentUserPane);
-        splitPane3.setDividerLocation(340);
+        splitPane3.setDividerLocation(500);
         splitPane3.setDividerSize(1);
         userPanel.add(splitPane3, BorderLayout.CENTER);
 
@@ -260,7 +267,7 @@ public class ChatFrame extends JFrame{
         //加载当前用户数据
         if(null != DataBuffer.currentUser){
             currentUserLbl.setIcon(
-                    new ImageIcon(System.getProperty("user.dir")+"\\ChatRoom\\images\\" + DataBuffer.currentUser.getHead() + ".png"));
+                    new ImageIcon(this.getClass().getResource("/").getPath()+"\\images\\" + DataBuffer.currentUser.getHead() + ".png"));
             currentUserLbl.setText(DataBuffer.currentUser.getNickname()
                     + "(" + DataBuffer.currentUser.getId() + ")");
         }
@@ -341,12 +348,24 @@ public class ChatFrame extends JFrame{
             sb.append(" ").append(df.format(msg.getSendTime())).append(" ")
                     .append(msg.getFromUser().getNickname())
                     .append("(").append(msg.getFromUser().getId()).append(") ");
+
+            StringBuffer sb2 = new StringBuffer();
+            sb2.append(" ").append(df.format(msg.getSendTime())).append(" ")
+                    .append("你 ");
+
+
+
             if(!this.rybqBtn.isSelected()){//群聊
                 sb.append("对大家说");
+                sb2.append("对大家说");
+            }else{
+                sb.append("私信你");
+                sb2.append("私信 ").append(selectedUser.getNickname());
             }
-            sb.append("\n  ").append(content).append("\n");
-            msg.setMessage(sb.toString());
 
+            sb.append("\n  ").append(content).append("\n");
+            sb2.append("\n  ").append(content).append("\n");
+            msg.setMessage(sb.toString());
             Request request = new Request();
             request.setAction("chat");
             request.setAttribute("msg", msg);
@@ -361,7 +380,7 @@ public class ChatFrame extends JFrame{
             ActionMap actionMap = sendArea.getActionMap();
             Object transferTextActionKey = "TRANSFER_TEXT";
             inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,0),transferTextActionKey);
-            actionMap.put(transferTextActionKey,new AbstractAction() {
+            actionMap.put(transferTextActionKey, new AbstractAction() {
                 private static final long serialVersionUID = 7041841945830590229L;
                 public void actionPerformed(ActionEvent e) {
                     sendArea.setText("");
@@ -369,6 +388,7 @@ public class ChatFrame extends JFrame{
                 }
             });
             sendArea.setText("");
+            msg.setMessage(sb2.toString());
             ClientUtil.appendTxt2MsgListArea(msg.getMessage());
         }
     }

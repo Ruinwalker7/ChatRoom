@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -47,21 +48,7 @@ public class UserService {
         return result;
     }
 
-    /** 根据ID加载用户 */
-    public User loadUser(long id){
-        User result = null;
-        List<User> users = loadAllUser();
-        for (User user : users) {
-            if(id == user.getId()){
-                result = user;
-                break;
-            }
-        }
-        return result;
-    }
-
-
-    /** 加载所有用户 */
+    /** 返回所有用户 */
     public List<User> loadAllUser() {
         List<User> list = null;
         ObjectInputStream ois = null;
@@ -69,7 +56,6 @@ public class UserService {
             ois = new ObjectInputStream(
                     new FileInputStream(System.getProperty("user.dir")+"\\ChatRoom\\"+
                             DataBuffer.configProp.getProperty("dbpath")));
-
             list = (List<User>)ois.readObject();
         } catch (Exception e) {
             e.printStackTrace();
@@ -96,18 +82,16 @@ public class UserService {
         }
     }
 
-    /** 初始化几个测试用户 */
+    /** 初始化几个测试用户
+     * 运行这个java包可以创建数据库 */
     public void initUser(){
         User user = new User("admin", "Admin", 'm', 0);
         user.setId(1);
-
         User user2 = new User("123", "yong", 'm', 1);
         user2.setId(2);
-
         User user3 = new User("123", "anni", 'f', 2);
         user3.setId(3);
-
-        List<User> users = new CopyOnWriteArrayList<User>();
+        List<User> users = new ArrayList<>();
         users.add(user);
         users.add(user2);
         users.add(user3);
