@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
 import java.io.IOException;
 
 public class RegisterFrame extends JFrame {
@@ -85,8 +86,9 @@ public class RegisterFrame extends JFrame {
         head.setBounds(278, 70, 90, 45);
         head.setMaximumRowCount(5);
         for (int i = 0; i < 11; i++) {
-            head.addItem(new ImageIcon(this.getClass().getResource("/").getPath()+"\\images\\" + i + ".png"));
+            head.addItem(new ImageIcon(new File(".","\\images\\" + i + ".png").getAbsolutePath()));
         }
+//        new ImageIcon()
         head.setSelectedIndex(0);
         getContentPane().add(head);
 

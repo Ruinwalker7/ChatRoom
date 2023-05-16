@@ -110,13 +110,13 @@ public class ChatFrame extends JFrame{
         tempPanel.add(btnPanel, BorderLayout.CENTER);
 
         //发送文件按钮
-        JButton shakeBtn = new JButton(new ImageIcon(this.getClass().getResource("/").getPath()+"\\images\\shake.png"));
+        JButton shakeBtn = new JButton(new ImageIcon((new File(".","\\images\\shake.png")).getAbsolutePath()));
         shakeBtn.setMargin(new Insets(0,0,0,0));
         shakeBtn.setToolTipText("向对方发送窗口振动");
         btnPanel.add(shakeBtn);
 
         //发送文件按钮
-        JButton sendFileBtn = new JButton(new ImageIcon(this.getClass().getResource("/").getPath()+"\\images\\sendPic.png"));
+        JButton sendFileBtn = new JButton(new ImageIcon(new File(".","\\images\\sendPic.png").getAbsolutePath()));
         sendFileBtn.setMargin(new Insets(0,0,0,0));
         sendFileBtn.setToolTipText("向对方发送文件");
         btnPanel.add(sendFileBtn);
@@ -267,7 +267,7 @@ public class ChatFrame extends JFrame{
         //加载当前用户数据
         if(null != DataBuffer.currentUser){
             currentUserLbl.setIcon(
-                    new ImageIcon(this.getClass().getResource("/").getPath()+"\\images\\" + DataBuffer.currentUser.getHead() + ".png"));
+                    new ImageIcon(new File(".","\\images\\" + DataBuffer.currentUser.getHead()  + ".png").getAbsolutePath()));
             currentUserLbl.setText(DataBuffer.currentUser.getNickname()
                     + "(" + DataBuffer.currentUser.getId() + ")");
         }

@@ -3,12 +3,11 @@ package server.model.service;
 import common.model.entity.User;
 import common.util.IOUtil;
 import server.DataBuffer;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class UserService {
@@ -53,9 +52,17 @@ public class UserService {
         List<User> list = null;
         ObjectInputStream ois = null;
         try {
+//            ois = new ObjectInputStream(
+//                    new FileInputStream(this.getClass().getResource("/").getPath()+
+//                            DataBuffer.configProp.getProperty("dbpath")));
+//            System.out.println(this.getClass().getResource("/").getPath()+
+//                    DataBuffer.configProp.getProperty("dbpath"));
+//            ois =new ObjectInputStream( this.getClass().getResourceAsStream("/user.db"));
+            File file = new File("..","user.db");
+            System.out.println(file.getAbsolutePath());
             ois = new ObjectInputStream(
-                    new FileInputStream(this.getClass().getResource("/").getPath()+"\\"+
-                            DataBuffer.configProp.getProperty("dbpath")));
+                    new FileInputStream(new File(".","user.db")));
+
             list = (List<User>)ois.readObject();
         } catch (Exception e) {
             e.printStackTrace();
@@ -69,9 +76,10 @@ public class UserService {
     private void saveAllUser(List<User> users) {
         ObjectOutputStream oos = null;
         try {
+            File file = new File("..","user.db");
             oos = new ObjectOutputStream(
-                    new FileOutputStream(this.getClass().getResource("/").getPath()+"\\"+
-                            DataBuffer.configProp.getProperty("dbpath")));
+                    new FileOutputStream(file));
+//            oos = new ObjectOutputStream(this.getClass().getResourceAsStream())
             //写回用户信息
             oos.writeObject(users);
             oos.flush();
