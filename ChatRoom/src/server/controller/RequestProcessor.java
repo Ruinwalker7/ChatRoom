@@ -38,14 +38,6 @@ public class RequestProcessor implements Runnable {
                     login(currentClientIOCache, request);
                 }else if("chat".equals(actionName)){       //聊天
                     chat(request);
-                }else if("shake".equals(actionName)){      //振动
-                    shake(request);
-                }else if("toSendFile".equals(actionName)){ //准备发送文件
-                    toSendFile(request);
-                }else if("agreeReceiveFile".equals(actionName)){ //同意接收文件
-                    agreeReceiveFile(request);
-                }else if("refuseReceiveFile".equals(actionName)){ //拒绝接收文件
-                    refuseReceiveFile(request);
                 }else if("exit".equals(actionName)){       //请求断开连接
                     logout(currentClientIOCache, request);
                     break;
@@ -56,35 +48,6 @@ public class RequestProcessor implements Runnable {
         }
     }
 
-    /** 拒绝接收文件 **/
-    private void refuseReceiveFile(Request request) throws IOException {
-        FileInfo sendFile = (FileInfo)request.getAttribute("sendFile");
-        Response response = new Response();  //创建一个响应对象
-        response.setType(ResponseType.REFUSERECEIVEFILE);
-        response.setData("sendFile", sendFile);
-        response.setStatus(ResponseStatus.OK);
-        OnlineClientIOCache senderIO = DataBuffer.onlineUserIOCacheMap.get(sendFile.getFromUser().getId());
-        this.sendResponse(senderIO, response);
-    }
-
-    /** 同意接收文件 **/
-    private void agreeReceiveFile(Request request) throws IOException {
-        FileInfo sendFile = (FileInfo)request.getAttribute("sendFile");
-        Response response = new Response();  //创建一个响应对象
-        response.setType(ResponseType.AGREERECEIVEFILE);
-        response.setData("sendFile", sendFile);
-        response.setStatus(ResponseStatus.OK);
-        OnlineClientIOCache sendIO = DataBuffer.onlineUserIOCacheMap.get(sendFile.getFromUser().getId());
-        this.sendResponse(sendIO, response);
-
-        //向发送方发出接收文件的响应
-        Response response2 = new Response();  //创建一个响应对象
-        response2.setType(ResponseType.RECEIVEFILE);
-        response2.setData("sendFile", sendFile);
-        response2.setStatus(ResponseStatus.OK);
-        OnlineClientIOCache receiveIO = DataBuffer.onlineUserIOCacheMap.get(sendFile.getToUser().getId());
-        this.sendResponse(receiveIO, response2);
-    }
 
     /** 客户端退出 */
     public void logout(OnlineClientIOCache oio, Request request) throws IOException{
@@ -269,38 +232,6 @@ public class RequestProcessor implements Runnable {
         sendResponse_sys(io, response);
     }
 
-    /** 发送振动 */
-    public void shake(Request request)throws IOException {
-        Message msg = (Message) request.getAttribute("msg");
-
-        DateFormat df = new SimpleDateFormat("HH:mm:ss");
-        StringBuffer sb = new StringBuffer();
-        sb.append(" ").append(msg.getFromUser().getNickname())
-                .append("(").append(msg.getFromUser().getId()).append(") ")
-                .append(df.format(msg.getSendTime())).append("\n  给您发送了一个窗口抖动\n");
-        msg.setMessage(sb.toString());
-
-        Response response = new Response();
-        response.setStatus(ResponseStatus.OK);
-        response.setType(ResponseType.SHAKE);
-        response.setData("ShakeMsg", msg);
-
-        OnlineClientIOCache io = DataBuffer.onlineUserIOCacheMap.get(msg.getToUser().getId());
-        sendResponse(io, response);
-    }
-
-    /** 准备发送文件 */
-    public void toSendFile(Request request)throws IOException{
-        Response response = new Response();
-        response.setStatus(ResponseStatus.OK);
-        response.setType(ResponseType.TOSENDFILE);
-        FileInfo sendFile = (FileInfo)request.getAttribute("file");
-        response.setData("sendFile", sendFile);
-        //给文件接收方转发文件发送方的请求
-        OnlineClientIOCache ioCache = DataBuffer.onlineUserIOCacheMap.get(sendFile.getToUser().getId());
-        sendResponse(ioCache, response);
-    }
-
     /** 给所有在线客户都发送响应 */
     private void iteratorResponse(Response response) throws IOException {
         for(OnlineClientIOCache onlineUserIO : DataBuffer.onlineUserIOCacheMap.values()){
@@ -317,7 +248,7 @@ public class RequestProcessor implements Runnable {
         oos.flush();
     }
 
-    /** 向指定客户端IO的输出流中输出指定响应 */
+    /** 发送失败会认为下线 */
     private static void sendResponse_sys(OnlineClientIOCache onlineUserIO, Response response)throws IOException {
         ObjectOutputStream oos = onlineUserIO.getOos();
         try{

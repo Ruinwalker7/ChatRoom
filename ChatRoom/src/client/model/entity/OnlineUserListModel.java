@@ -1,11 +1,10 @@
 package client.model.entity;
 
 import java.util.List;
-
 import javax.swing.AbstractListModel;
-
 import common.model.entity.User;
 
+//在线用户模型
 public class OnlineUserListModel extends AbstractListModel {
     private static final long serialVersionUID = -3903760573171074301L;
     private List<User> onlineUsers;

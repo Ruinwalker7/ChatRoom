@@ -12,7 +12,7 @@ import java.util.Properties;
 import java.util.concurrent.ConcurrentSkipListMap;
 
 /**
-* 用来读取配置文件
+* 静态变量
 * */
 public class DataBuffer {
     // 服务器端套接字
