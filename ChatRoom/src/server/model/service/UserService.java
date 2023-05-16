@@ -54,7 +54,7 @@ public class UserService {
         ObjectInputStream ois = null;
         try {
             ois = new ObjectInputStream(
-                    new FileInputStream(System.getProperty("user.dir")+"\\ChatRoom\\"+
+                    new FileInputStream(this.getClass().getResource("/").getPath()+"\\"+
                             DataBuffer.configProp.getProperty("dbpath")));
             list = (List<User>)ois.readObject();
         } catch (Exception e) {
@@ -70,7 +70,7 @@ public class UserService {
         ObjectOutputStream oos = null;
         try {
             oos = new ObjectOutputStream(
-                    new FileOutputStream(System.getProperty("user.dir")+"\\ChatRoom\\"+
+                    new FileOutputStream(this.getClass().getResource("/").getPath()+"\\"+
                             DataBuffer.configProp.getProperty("dbpath")));
             //写回用户信息
             oos.writeObject(users);

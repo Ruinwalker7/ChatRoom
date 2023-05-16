@@ -13,10 +13,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 import java.io.IOException;
 import java.util.List;
 
@@ -110,6 +107,15 @@ public class LoginFrame extends JFrame {
                 login();
             }
         });
+
+        pwdFld.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if(e.getKeyCode()==Event.ENTER){
+                    login();
+                }
+            }
+        });
     }
 
     /** 登录 */
@@ -146,9 +152,9 @@ public class LoginFrame extends JFrame {
 
         if(response.getStatus() == ResponseStatus.OK){
             //获取当前用户
-            User user2 = (User)response.getData("user");
-            if(user2!= null){ //登录成功
-                DataBuffer.currentUser = user2;
+            User userCurrent = (User)response.getData("user");
+            if(userCurrent!= null){ //登录成功
+                DataBuffer.currentUser = userCurrent;
                 //获取当前在线用户列表
                 DataBuffer.onlineUsers = (List<User>)response.getData("onlineUsers");
                 LoginFrame.this.dispose();

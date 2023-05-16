@@ -85,8 +85,7 @@ public class RegisterFrame extends JFrame {
         head.setBounds(278, 70, 90, 45);
         head.setMaximumRowCount(5);
         for (int i = 0; i < 11; i++) {
-            head.addItem(new ImageIcon(System.getProperty("user.dir")+"\\ChatRoom\\images\\" + i + ".png"));
-            //通过循环添加图片，注意图片名字要取成1,2,3,4,5,等
+            head.addItem(new ImageIcon(this.getClass().getResource("/").getPath()+"\\images\\" + i + ".png"));
         }
         head.setSelectedIndex(0);
         getContentPane().add(head);
@@ -105,7 +104,6 @@ public class RegisterFrame extends JFrame {
         getContentPane().add(cancel);
 
         //////////////////////注册事件监听器////////////////////////
-        //取消按钮监听事件处理
         cancel.addActionListener(new ActionListener() {
             public void actionPerformed(final ActionEvent event) {
                 RegisterFrame.this.dispose();
