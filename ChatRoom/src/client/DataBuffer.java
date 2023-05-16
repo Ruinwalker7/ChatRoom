@@ -12,6 +12,7 @@ import java.net.Socket;
 import java.util.List;
 import java.util.Properties;
 
+/** 静态变量类*/
 public class DataBuffer {
     /** 当前客户端的用户信息 */
     public static User currentUser;

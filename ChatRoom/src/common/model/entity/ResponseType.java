@@ -9,6 +9,8 @@ public enum ResponseType {
     LOGOUT,
     /**聊天*/
     CHAT,
+    BUILDGROUP,
+    BOARDGROUP,
     /**其它*/
     OTHER,
     /**广播*/

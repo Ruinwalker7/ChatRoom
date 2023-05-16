@@ -41,12 +41,15 @@ public class RequestProcessor implements Runnable {
                 }else if("exit".equals(actionName)){       //请求断开连接
                     logout(currentClientIOCache, request);
                     break;
+                }else if ("build".equals(actionName)) {
+                    build(currentClientIOCache,request);
                 }
             }
         }catch(Exception e){
             e.printStackTrace();
         }
     }
+
 
 
     /** 客户端退出 */
@@ -89,6 +92,41 @@ public class RequestProcessor implements Runnable {
                 String.valueOf(user.getSex())
         });
     }
+
+    private void build(OnlineClientIOCache currentClientIO, Request request) throws IOException{
+        User user = (User)request.getAttribute("user");
+        String name = (String)request.getAttribute("name");
+        Group group = new Group();
+        group.setName(name);
+        group.add(user);
+        Response response = new Response();
+        if(null!=name){
+            if(DataBuffer.groupMap.containsKey(name)){
+                response.setStatus(ResponseStatus.OK);
+                response.setData("msg", "已有重名群组");
+                currentClientIO.getOos().writeObject(response);  //把响应对象往客户端写
+                currentClientIO.getOos().flush();
+            }
+            else{
+                DataBuffer.groupMap.put(name,group);
+
+                response.setStatus(ResponseStatus.OK);
+                currentClientIO.getOos().writeObject(response);  //把响应对象往客户端写
+                currentClientIO.getOos().flush();
+
+                Response response2 = new Response();
+                response2.setType(ResponseType.BUILDGROUP);
+                response2.setData("name", name);
+                iteratorResponse(response2);
+                
+            }
+    }else{ //登录失败
+            response.setStatus(ResponseStatus.OK);
+            response.setData("msg", "请输入名字");
+            currentClientIO.getOos().writeObject(response);
+            currentClientIO.getOos().flush();
+        }}
+
 
     /** 登录 */
     public void login(OnlineClientIOCache currentClientIO, Request request) throws IOException {

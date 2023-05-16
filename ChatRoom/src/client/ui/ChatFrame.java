@@ -5,8 +5,6 @@ import client.DataBuffer;
 import client.model.entity.MyCellRenderer;
 import client.model.entity.OnlineUserListModel;
 import client.util.ClientUtil;
-import client.util.JFrameShaker;
-import common.model.entity.FileInfo;
 import common.model.entity.Message;
 import common.model.entity.Request;
 import common.model.entity.User;
@@ -14,7 +12,6 @@ import common.model.entity.User;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -35,11 +32,10 @@ public class ChatFrame extends JFrame{
     public static JList onlineList;
     /** 在线用户数统计Lbl */
     public static JLabel onlineCountLbl;
-    /** 准备发送的文件 */
-    public static FileInfo sendFile;
 
     /** 私聊复选框 */
     public JCheckBox rybqBtn;
+
 
     public ChatFrame(){
         this.init();
@@ -60,9 +56,11 @@ public class ChatFrame extends JFrame{
         //左边主面板
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
+
         //右边用户面板
         JPanel userPanel = new JPanel();
         userPanel.setLayout(new BorderLayout());
+
 
         // 创建一个分隔窗格
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
@@ -71,6 +69,7 @@ public class ChatFrame extends JFrame{
         splitPane.setDividerSize(10);
         splitPane.setOneTouchExpandable(true);
         this.add(splitPane, BorderLayout.CENTER);
+
 
         //左上边信息显示面板
         JPanel infoPanel = new JPanel();
@@ -109,17 +108,6 @@ public class ChatFrame extends JFrame{
         btnPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
         tempPanel.add(btnPanel, BorderLayout.CENTER);
 
-        //发送文件按钮
-        JButton shakeBtn = new JButton(new ImageIcon(this.getClass().getResource("/").getPath()+"\\images\\shake.png"));
-        shakeBtn.setMargin(new Insets(0,0,0,0));
-        shakeBtn.setToolTipText("向对方发送窗口振动");
-        btnPanel.add(shakeBtn);
-
-        //发送文件按钮
-        JButton sendFileBtn = new JButton(new ImageIcon(this.getClass().getResource("/").getPath()+"\\images\\sendPic.png"));
-        sendFileBtn.setMargin(new Insets(0,0,0,0));
-        sendFileBtn.setToolTipText("向对方发送文件");
-        btnPanel.add(sendFileBtn);
 
         //私聊按钮
         rybqBtn = new JCheckBox("私聊");
@@ -152,17 +140,43 @@ public class ChatFrame extends JFrame{
         onlineCountLbl = new JLabel("在线用户列表(1)");
         onlineListPane.add(onlineCountLbl, BorderLayout.NORTH);
 
+        JPanel temp = new JPanel();
+        temp.setLayout(new BorderLayout());
+
+
         //当前用户面板
         JPanel currentUserPane = new JPanel();
         currentUserPane.setLayout(new BorderLayout());
         currentUserPane.add(new JLabel("当前用户"), BorderLayout.NORTH);
 
+        //群组面板
+        JButton groupBuildBut = new JButton("创建");
+
+        JPanel groupPanel = new JPanel();
+        groupPanel.setLayout(new BorderLayout());
+        groupPanel.add(new JLabel("群组"), BorderLayout.NORTH);
+        groupPanel.add(groupBuildBut);
+
+        JSplitPane splitPane4 = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
+                groupPanel,currentUserPane );
+        splitPane4.setDividerLocation(200);
+        splitPane4.setDividerSize(1);
+        temp.add(splitPane4, BorderLayout.CENTER);
+
         // 右边用户列表创建一个分隔窗格
         JSplitPane splitPane3 = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
                 onlineListPane, currentUserPane);
-        splitPane3.setDividerLocation(500);
+        splitPane3.setDividerLocation(400);
         splitPane3.setDividerSize(1);
         userPanel.add(splitPane3, BorderLayout.CENTER);
+//
+//
+//        JSplitPane splitPane4 = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
+//                groupPanel,currentUserPane );
+//        splitPane4.setDividerLocation(200);
+//        splitPane4.setDividerSize(1);
+//        temp.add(splitPane4, BorderLayout.CENTER);
+
 
         //获取在线用户并缓存
         DataBuffer.onlineUserListModel = new OnlineUserListModel(DataBuffer.onlineUsers);
@@ -185,6 +199,14 @@ public class ChatFrame extends JFrame{
                 logout();
             }
         });
+
+//        groupBuildBut.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                BuildGroup();
+//            }
+//        });
+
 
         //关闭按钮的事件
         closeBtn.addActionListener(new ActionListener() {
@@ -245,22 +267,21 @@ public class ChatFrame extends JFrame{
             }
         });
 
-        //发送振动
-        shakeBtn.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                sendShakeMsg();
-            }
-        });
-
-        //发送文件
-        sendFileBtn.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                sendFile();
-            }
-        });
-
         this.loadData();  //加载初始数据
     }
+
+//    private void BuildGroup() {
+//        String str01 = JOptionPane.showInputDialog(null, "请输入群组名字",JOptionPane.QUESTION_MESSAGE);
+//        Request req = new Request();
+//        req.setAction("build");
+//        req.setAttribute("user", DataBuffer.currentUser);
+//        req.setAttribute("name",str01);
+//        try {
+//            ClientUtil.sendTextRequest(req);
+//        } catch (IOException ex) {
+//            ex.printStackTrace();
+//        }
+//    };
 
     /**  加载数据 */
     public void loadData(){
@@ -277,45 +298,6 @@ public class ChatFrame extends JFrame{
         new ClientThread(this).start();
     }
 
-    /** 发送振动 */
-    public void sendShakeMsg(){
-        User selectedUser = (User)onlineList.getSelectedValue();
-        if(null != selectedUser){
-            if(DataBuffer.currentUser.getId() == selectedUser.getId()){
-                JOptionPane.showMessageDialog(ChatFrame.this, "不能给自己发送振动!",
-                        "不能发送", JOptionPane.ERROR_MESSAGE);
-            }else{
-                Message msg = new Message();
-                msg.setFromUser(DataBuffer.currentUser);
-                msg.setToUser(selectedUser);
-                msg.setSendTime(new Date());
-
-                DateFormat df = new SimpleDateFormat("HH:mm:ss");
-                StringBuffer sb = new StringBuffer();
-                sb.append(" ").append(msg.getFromUser().getNickname())
-                        .append("(").append(msg.getFromUser().getId()).append(") ")
-                        .append(df.format(msg.getSendTime()))
-                        .append("\n  给").append(msg.getToUser().getNickname())
-                        .append("(").append(msg.getToUser().getId()).append(") ")
-                        .append("发送了一个窗口抖动\n");
-                msg.setMessage(sb.toString());
-
-                Request request = new Request();
-                request.setAction("shake");
-                request.setAttribute("msg", msg);
-                try {
-                    ClientUtil.sendTextRequestWithoutReceive(request);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                ClientUtil.appendTxt2MsgListArea(msg.getMessage());
-                new JFrameShaker(ChatFrame.this).startShake();
-            }
-        }else{
-            JOptionPane.showMessageDialog(ChatFrame.this, "不能群发送振动!",
-                    "不能发送", JOptionPane.ERROR_MESSAGE);
-        }
-    }
 
     /** 发送文本消息 */
     public void sendTxtMsg(){
@@ -352,7 +334,6 @@ public class ChatFrame extends JFrame{
             StringBuffer sb2 = new StringBuffer();
             sb2.append(" ").append(df.format(msg.getSendTime())).append(" ")
                     .append("你 ");
-
 
 
             if(!this.rybqBtn.isSelected()){//群聊
@@ -393,47 +374,6 @@ public class ChatFrame extends JFrame{
         }
     }
 
-    /** 发送文件 */
-    private void sendFile() {
-        User selectedUser = (User)onlineList.getSelectedValue();
-        if(null != selectedUser){
-            if(DataBuffer.currentUser.getId() == selectedUser.getId()){
-                JOptionPane.showMessageDialog(ChatFrame.this, "不能给自己发送文件!",
-                        "不能发送", JOptionPane.ERROR_MESSAGE);
-            }else{
-                JFileChooser jfc = new JFileChooser();
-                if (jfc.showOpenDialog(ChatFrame.this) == JFileChooser.APPROVE_OPTION) {
-                    File file = jfc.getSelectedFile();
-                    sendFile = new FileInfo();
-                    sendFile.setFromUser(DataBuffer.currentUser);
-                    sendFile.setToUser(selectedUser);
-                    try {
-                        sendFile.setSrcName(file.getCanonicalPath());
-                    } catch (IOException e1) {
-                        e1.printStackTrace();
-                    }
-                    sendFile.setSendTime(new Date());
-
-                    Request request = new Request();
-                    request.setAction("toSendFile");
-                    request.setAttribute("file", sendFile);
-                    try {
-                        ClientUtil.sendTextRequestWithoutReceive(request);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                    ClientUtil.appendTxt2MsgListArea("【文件消息】向 "
-                            + selectedUser.getNickname() + "("
-                            + selectedUser.getId() + ") 发送文件 ["
-                            + file.getName() + "]，等待对方接收...\n");
-                }
-            }
-        }else{
-            JOptionPane.showMessageDialog(ChatFrame.this, "不能给所有在线用户发送文件!",
-                    "不能发送", JOptionPane.ERROR_MESSAGE);
-        }
-    }
 
     /** 关闭客户端 */
     private void logout() {
