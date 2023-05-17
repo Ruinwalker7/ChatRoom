@@ -8,6 +8,7 @@ import client.util.ClientUtil;
 import common.model.entity.Message;
 import common.model.entity.Request;
 import common.model.entity.User;
+import sun.plugin.javascript.navig.Link;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,7 +16,9 @@ import java.awt.event.*;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 public class ChatFrame extends JFrame{
@@ -35,6 +38,7 @@ public class ChatFrame extends JFrame{
 
     /** 私聊复选框 */
     public JCheckBox rybqBtn;
+    public JCheckBox groupBtn;
 
 
     public ChatFrame(){
@@ -109,10 +113,16 @@ public class ChatFrame extends JFrame{
         tempPanel.add(btnPanel, BorderLayout.CENTER);
 
 
+        JPanel btn3Panel = new JPanel();
         //私聊按钮
         rybqBtn = new JCheckBox("私聊");
         tempPanel.add(rybqBtn, BorderLayout.EAST);
 
+        groupBtn = new JCheckBox("群组");
+
+        btn3Panel.add(rybqBtn);
+        btn3Panel.add(groupBtn);
+        tempPanel.add(btn3Panel,BorderLayout.AFTER_LINE_ENDS);
         //要发送的信息的区域
         sendArea = new JTextArea();
         sendArea.setLineWrap(true);
@@ -169,13 +179,7 @@ public class ChatFrame extends JFrame{
         splitPane3.setDividerLocation(400);
         splitPane3.setDividerSize(1);
         userPanel.add(splitPane3, BorderLayout.CENTER);
-//
-//
-//        JSplitPane splitPane4 = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
-//                groupPanel,currentUserPane );
-//        splitPane4.setDividerLocation(200);
-//        splitPane4.setDividerSize(1);
-//        temp.add(splitPane4, BorderLayout.CENTER);
+;
 
 
         //获取在线用户并缓存
@@ -200,12 +204,6 @@ public class ChatFrame extends JFrame{
             }
         });
 
-//        groupBuildBut.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                BuildGroup();
-//            }
-//        });
 
 
         //关闭按钮的事件
@@ -234,6 +232,17 @@ public class ChatFrame extends JFrame{
             }
         });
 
+        groupBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(groupBtn.isSelected()){
+                    onlineList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+                }
+                else {
+                    onlineList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+                }
+            }
+        });
         //选择某个用户
         onlineList.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
@@ -270,18 +279,7 @@ public class ChatFrame extends JFrame{
         this.loadData();  //加载初始数据
     }
 
-//    private void BuildGroup() {
-//        String str01 = JOptionPane.showInputDialog(null, "请输入群组名字",JOptionPane.QUESTION_MESSAGE);
-//        Request req = new Request();
-//        req.setAction("build");
-//        req.setAttribute("user", DataBuffer.currentUser);
-//        req.setAttribute("name",str01);
-//        try {
-//            ClientUtil.sendTextRequest(req);
-//        } catch (IOException ex) {
-//            ex.printStackTrace();
-//        }
-//    };
+
 
     /**  加载数据 */
     public void loadData(){
@@ -307,9 +305,11 @@ public class ChatFrame extends JFrame{
                     "不能发送", JOptionPane.ERROR_MESSAGE);
         } else { //发送
             User selectedUser = (User)onlineList.getSelectedValue();
+            List<User> list = new ArrayList<>();
             //如果设置了ToUser表示私聊，否则群聊
             Message msg = new Message();
             if(rybqBtn.isSelected()){  //私聊
+
                 if(null == selectedUser){
                     JOptionPane.showMessageDialog(ChatFrame.this, "没有选择私聊对象!",
                             "不能发送", JOptionPane.ERROR_MESSAGE);
@@ -322,6 +322,11 @@ public class ChatFrame extends JFrame{
                     msg.setToUser(selectedUser);
                 }
             }
+            if(groupBtn.isSelected()){
+                list = (List<User>) onlineList.getSelectedValuesList();
+                System.out.println(list);
+            }
+
             msg.setFromUser(DataBuffer.currentUser);
             msg.setSendTime(new Date());
 
@@ -339,22 +344,44 @@ public class ChatFrame extends JFrame{
             if(!this.rybqBtn.isSelected()){//群聊
                 sb.append("对大家说");
                 sb2.append("对大家说");
-            }else{
+            }else if(rybqBtn.isSelected()){
                 sb.append("私信你");
                 sb2.append("私信 ").append(selectedUser.getNickname());
+            } else if (groupBtn.isSelected()) {
+                sb.append("群聊");
+                sb2.append("群聊");
             }
 
             sb.append("\n  ").append(content).append("\n");
             sb2.append("\n  ").append(content).append("\n");
             msg.setMessage(sb.toString());
-            Request request = new Request();
-            request.setAction("chat");
-            request.setAttribute("msg", msg);
-            try {
-                ClientUtil.sendTextRequestWithoutReceive(request);
-            } catch (IOException e) {
-                e.printStackTrace();
+
+
+            if(groupBtn.isSelected()){
+            for(int i=0;i<list.size();i++){
+                msg.setToUser(list.get(i));
+                Request request = new Request();
+                request.setAction("chat");
+                request.setAttribute("msg", msg);
+                System.out.println(list.get(i));
+                try {
+                    ClientUtil.sendTextRequestWithoutReceive(request);
+//                    wait(10);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
+            }else{
+                try {
+                    Request request = new Request();
+                    request.setAction("chat");
+                    request.setAttribute("msg", msg);
+                    ClientUtil.sendTextRequestWithoutReceive(request);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
 
             //JTextArea中按“Enter”时，清空内容并回到首行
             InputMap inputMap = sendArea.getInputMap();
