@@ -41,7 +41,7 @@ public class LoginFrame extends JFrame {
         this.setResizable(false);
 
         //把Logo放置到JFrame的北边
-        Icon icon = new ImageIcon(System.getProperty("user.dir")+"\\ChatRoom\\images\\logo.png");
+        Icon icon = new ImageIcon();
         JLabel label = new JLabel(icon);
         label.setPreferredSize(new Dimension(324,47));
         this.add(label, BorderLayout.NORTH);
@@ -101,7 +101,7 @@ public class LoginFrame extends JFrame {
             }
         });
 
-        //"登录"
+        //登录
         submitBtn.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e) {
                 login();

@@ -1,6 +1,8 @@
 package common.model.entity;
 
+import java.awt.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Message implements Serializable {
@@ -14,10 +16,10 @@ public class Message implements Serializable {
     /** 发送时间 */
     private Date sendTime;
 
-
     public User getToUser() {
         return toUser;
     }
+
     public void setToUser(User toUser) {
         this.toUser = toUser;
     }

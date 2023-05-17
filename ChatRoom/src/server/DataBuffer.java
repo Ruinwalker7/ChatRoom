@@ -1,11 +1,8 @@
 package server;
 
-import common.model.entity.Group;
 import common.model.entity.User;
-import server.model.entity.GroupTableModel;
 import server.model.entity.OnlineUserTableModel;
 import server.model.entity.RegistedUserTableModel;
-
 import java.awt.*;
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -23,12 +20,10 @@ public class DataBuffer {
     public static Map<Long, OnlineClientIOCache> onlineUserIOCacheMap;
     //在线用户Map
     public static Map<Long, User> onlineUsersMap;
-    public static Map<String, Group> groupMap;
     //服务器配置参数属性集
     public static Properties configProp;
     // 已注册用户表的Model
     public static RegistedUserTableModel registedUserTableModel;
-    public static GroupTableModel groupTableModel;
     // 当前在线用户表的Model
     public static OnlineUserTableModel onlineUserTableModel;
     // 当前服务器所在系统的屏幕尺寸
@@ -38,10 +33,8 @@ public class DataBuffer {
         onlineUserIOCacheMap = new ConcurrentSkipListMap<>();
         onlineUsersMap = new ConcurrentSkipListMap<>();
         configProp = new Properties();
-        groupMap = new ConcurrentSkipListMap<>();
         registedUserTableModel = new RegistedUserTableModel();
         onlineUserTableModel = new OnlineUserTableModel();
-        groupTableModel = new GroupTableModel();
         screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
         // 加载服务器配置文件

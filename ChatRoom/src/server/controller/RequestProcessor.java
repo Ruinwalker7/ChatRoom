@@ -41,8 +41,6 @@ public class RequestProcessor implements Runnable {
                 }else if("exit".equals(actionName)){       //请求断开连接
                     logout(currentClientIOCache, request);
                     break;
-                }else if ("build".equals(actionName)) {
-                    build(currentClientIOCache,request);
                 }
             }
         }catch(Exception e){
@@ -92,41 +90,6 @@ public class RequestProcessor implements Runnable {
                 String.valueOf(user.getSex())
         });
     }
-
-    private void build(OnlineClientIOCache currentClientIO, Request request) throws IOException{
-        User user = (User)request.getAttribute("user");
-        String name = (String)request.getAttribute("name");
-        Group group = new Group();
-        group.setName(name);
-        group.add(user);
-        Response response = new Response();
-        if(null!=name){
-            if(DataBuffer.groupMap.containsKey(name)){
-                response.setStatus(ResponseStatus.OK);
-                response.setData("msg", "已有重名群组");
-                currentClientIO.getOos().writeObject(response);  //把响应对象往客户端写
-                currentClientIO.getOos().flush();
-            }
-            else{
-                DataBuffer.groupMap.put(name,group);
-
-                response.setStatus(ResponseStatus.OK);
-                currentClientIO.getOos().writeObject(response);  //把响应对象往客户端写
-                currentClientIO.getOos().flush();
-
-                Response response2 = new Response();
-                response2.setType(ResponseType.BUILDGROUP);
-                response2.setData("name", name);
-                iteratorResponse(response2);
-                
-            }
-    }else{ //登录失败
-            response.setStatus(ResponseStatus.OK);
-            response.setData("msg", "请输入名字");
-            currentClientIO.getOos().writeObject(response);
-            currentClientIO.getOos().flush();
-        }}
-
 
     /** 登录 */
     public void login(OnlineClientIOCache currentClientIO, Request request) throws IOException {
@@ -186,11 +149,12 @@ public class RequestProcessor implements Runnable {
         response.setData("txtMsg", msg);
 
         if(msg.getToUser() != null){ //私聊:只给私聊的对象返回响应
+            System.out.println(msg.getToUser());
             OnlineClientIOCache io = DataBuffer.onlineUserIOCacheMap.get(msg.getToUser().getId());
             sendResponse(io, response);
         }else{  //群聊:给除了发消息的所有客户端都返回响应
             for(Long id : DataBuffer.onlineUserIOCacheMap.keySet()){
-                if(msg.getFromUser().getId() == id ){	continue; }
+                if(msg.getFromUser().getId() == id ){continue; }
                 sendResponse(DataBuffer.onlineUserIOCacheMap.get(id), response);
             }
         }

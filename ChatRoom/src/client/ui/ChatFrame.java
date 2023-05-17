@@ -8,8 +8,6 @@ import client.util.ClientUtil;
 import common.model.entity.Message;
 import common.model.entity.Request;
 import common.model.entity.User;
-import sun.plugin.javascript.navig.Link;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -176,7 +174,7 @@ public class ChatFrame extends JFrame{
         // 右边用户列表创建一个分隔窗格
         JSplitPane splitPane3 = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
                 onlineListPane, currentUserPane);
-        splitPane3.setDividerLocation(400);
+        splitPane3.setDividerLocation(600);
         splitPane3.setDividerSize(1);
         userPanel.add(splitPane3, BorderLayout.CENTER);
 ;
@@ -226,11 +224,29 @@ public class ChatFrame extends JFrame{
                         otherInfoLbl.setText("当前状态：与 "+ selectedUser.getNickname()
                                 +"(" + selectedUser.getId() + ") 私聊中...");
                     }
+                    if(groupBtn.isSelected()){
+                        groupBtn.setSelected(false);
+                    }
                 }else{
                     otherInfoLbl.setText("当前状态：群聊...");
                 }
             }
         });
+
+        groupBtn.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e) {
+                if(groupBtn.isSelected()){
+                    otherInfoLbl.setText("当前状态：小组聊天中");
+                    if(rybqBtn.isSelected()){
+                        rybqBtn.setSelected(false);
+                    }
+                }
+                else{
+                    otherInfoLbl.setText("当前状态：群聊...");
+                }
+                }
+            }
+        );
 
         groupBtn.addActionListener(new ActionListener() {
             @Override
@@ -341,15 +357,15 @@ public class ChatFrame extends JFrame{
                     .append("你 ");
 
 
-            if(!this.rybqBtn.isSelected()){//群聊
-                sb.append("对大家说");
-                sb2.append("对大家说");
-            }else if(rybqBtn.isSelected()){
+           if(rybqBtn.isSelected()){
                 sb.append("私信你");
                 sb2.append("私信 ").append(selectedUser.getNickname());
             } else if (groupBtn.isSelected()) {
                 sb.append("群聊");
                 sb2.append("群聊");
+            }else{//群聊
+                sb.append("对大家说");
+                sb2.append("对大家说");
             }
 
             sb.append("\n  ").append(content).append("\n");
@@ -359,14 +375,18 @@ public class ChatFrame extends JFrame{
 
             if(groupBtn.isSelected()){
             for(int i=0;i<list.size();i++){
-                msg.setToUser(list.get(i));
+                User u=  list.get(i);
+                Message m = new Message();
+                m.setFromUser(DataBuffer.currentUser);
+                m.setSendTime(new Date());
+                m.setMessage(sb.toString());
+                m.setToUser(u);
                 Request request = new Request();
                 request.setAction("chat");
-                request.setAttribute("msg", msg);
-                System.out.println(list.get(i));
+                request.setAttribute("msg", m);
                 try {
                     ClientUtil.sendTextRequestWithoutReceive(request);
-//                    wait(10);
+                    System.out.println(((Message)request.getAttribute("msg")).getToUser());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

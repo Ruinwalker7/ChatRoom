@@ -31,7 +31,6 @@ public class ServerInfoFrame extends JFrame {
     private JTextField jta_msg;
     private JTable onlineUserTable ;
     private JTable registedUserTable ;
-    private JTable groupsTable ;
     public ServerInfoFrame() {
         init();
         loadData();
@@ -81,7 +80,6 @@ public class ServerInfoFrame extends JFrame {
         //使用服务器缓存中的TableModel
         onlineUserTable = new JTable(DataBuffer.onlineUserTableModel);
         registedUserTable = new JTable(DataBuffer.registedUserTableModel);
-        groupsTable = new JTable(DataBuffer.groupTableModel);
 
         // 取得表格上的弹出菜单对象,加到表格上
         JPopupMenu pop1 = getTablePop();
@@ -94,7 +92,6 @@ public class ServerInfoFrame extends JFrame {
         JTabbedPane tabbedPane = new JTabbedPane();
         tabbedPane.addTab("在线用户列表", new JScrollPane(onlineUserTable));
         tabbedPane.addTab("已注册用户列表", new JScrollPane(registedUserTable));
-        tabbedPane.addTab("当前群组", new JScrollPane(groupsTable));
 
         tabbedPane.setTabComponentAt(0, new JLabel("在线用户列表"));
         this.add(tabbedPane, BorderLayout.CENTER);
