@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="beautyeye_lnf">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/out/production/Chat_Room-master/beautyeye_lnf.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

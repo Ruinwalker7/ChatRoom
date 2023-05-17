@@ -253,6 +253,9 @@ public class ChatFrame extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 if(groupBtn.isSelected()){
                     onlineList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+                    if(rybqBtn.isSelected()){
+                        rybqBtn.setSelected(false);
+                    }
                 }
                 else {
                     onlineList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
